@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DOCXAutomationWPF" xmlns:viewmodel="clr-namespace:DOCXAutomationWPF.ViewModel" xmlns:model="clr-namespace:DOCXAutomationWPF.Model"
+        xmlns:local="clr-namespace:DOCXAutomationWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="900">
     <Grid>
@@ -21,23 +21,23 @@
         </Grid.ColumnDefinitions>
         <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <MenuItem Header="File">
-                <MenuItem Header="Open">
+                <MenuItem Header="Open" Click="openFileButton_Click">
                     <MenuItem.Icon>
                         <Image Source="Images/OpenFolder_16x.png" Width="16" Height="16"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save">
+                <MenuItem Header="Save" Click="saveFileToolbarMenuButton_Click" IsEnabled="{Binding Path=FileOps.IsModified}">
                     <MenuItem.Icon>
                         <Image Source="Images/Save_16x.png" Width="16" Height="16"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="Save As">
+                <MenuItem Header="Save As" Click="saveAsToolbarMenuButton_Click">
                 <MenuItem.Icon>
                     <Image Source="Images/SaveAs_16x.png" Width="16" Height="16"/>
                 </MenuItem.Icon>
             </MenuItem>
             <Separator/>
-                <MenuItem Header="Exit"/>
+                <MenuItem Header="Exit" Click="exitToolbarMenuButton_Click"/>
             </MenuItem>
             <MenuItem Header="Settings">
                 <MenuItem Header="Default Values"/>
@@ -79,8 +79,8 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <Label Width="Auto" Content="{Binding Path=ReplacementField}" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Center" Margin="10,0,5,0"/>
-                            <TextBox Width="Auto" Text="{Binding Path=ReplacementValue, UpdateSourceTrigger=Explicit}"
-                                         local:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text" Grid.Column="1" Grid.ColumnSpan="1" Margin="5,0,5,0"/>
+                            <TextBox Width="Auto" Text="{Binding Path=ReplacementValue, UpdateSourceTrigger=LostFocus}"
+                                         Grid.Column="1" Grid.ColumnSpan="1" Margin="5,0,5,0"/>
                             <ComboBox Width="Auto" SelectedItem="{Binding Path=TextStyle}"  AllowDrop="True" SelectedIndex="0" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,0,5,0">
                                 <ComboBoxItem>None</ComboBoxItem>
                                 <ComboBoxItem>Bold</ComboBoxItem>
@@ -129,7 +129,7 @@
             <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" x:Name="openFileButton" Margin="10,10,10,4" Click="openFileButton_Click">Open File</Button>
             <Label Grid.Column="1" Grid.ColumnSpan="1" x:Name="filenameLabel" Content="{Binding Filename}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="10,0,0,4"/>
             <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Margin="10,4,10,10" Click="scanFIleBtn_Click">Scan File</Button>
-            <Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,4">Submit</Button>
+            <Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,4" Click="submitResultsButton_Click">Submit</Button>
         </Grid>
     </Grid>
 </Window>

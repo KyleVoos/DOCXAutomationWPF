@@ -7,6 +7,12 @@ using System.Text;
 
 namespace DOCXAutomationWPF.Model
 {
+    /// <summary>
+    /// The class holding all the replacemet values for the tag being edited.
+    /// It implements the INotifyPropertyChanged interface allowing for the
+    /// OnPropertyChanged event to update the underlying values when being used in
+    /// an item template.
+    /// </summary>
     public class ReplacementValues : INotifyPropertyChanged
     {
         private string _replacementField;
@@ -19,6 +25,7 @@ namespace DOCXAutomationWPF.Model
                 OnPropertyChanged();
             }
         }
+        /// TODO: In the future make this use LostFocus for the update trigger
         private string _replacementValue;
         public string ReplacementValue 
         {
@@ -26,7 +33,7 @@ namespace DOCXAutomationWPF.Model
             set
             {
                 _replacementValue = value;
-                //OnPropertyChanged();
+                OnPropertyChanged();
             }
         }
         private string _textStyle;

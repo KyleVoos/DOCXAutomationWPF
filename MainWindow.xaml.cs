@@ -25,6 +25,21 @@ namespace DOCXAutomationWPF
         private List<string> _fonts = System.Drawing.FontFamily.Families.Select(f => f.Name).ToList();
         public List<string> Fonts { get => _fonts; set => _fonts = value; }
         private FileOperations _fileOperations;
+
+        public FileOperations FileOperations
+        {
+            get => _fileOperations;
+            set
+            {
+                _fileOperations = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsModified
+        {
+            get => _fileOperations.IsModified;
+        }
         private string _filename;
         public string Filename 
         {
@@ -39,6 +54,7 @@ namespace DOCXAutomationWPF
             testBinding.ItemsSource = _replacementValues;
             Resources.Add("colors", allColors);
             Resources.Add("fontsList", Fonts);
+            Resources.Add("FileOps", FileOperations);
         }
 
         private ObservableCollection<ReplacementValues> _replacementValues;
@@ -86,6 +102,49 @@ namespace DOCXAutomationWPF
         {
             foreach (var res in results)
                 _replacementValues.Add(new ReplacementValues(res));
+        }
+
+        private void saveFileToolbarMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = _fileOperations.Save();
+
+            if (result.Status == TaskStatus.Faulted)
+                DisplayError(result.Exception);
+        }
+        
+        private void saveAsToolbarMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog()
+            {
+                FileName = "",
+                Filter = "Docx files (*.docx)|*.docx"
+            };
+
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                var res = _fileOperations.SaveAs(saveFileDialog.FileName);
+
+                if (res.Status == TaskStatus.Faulted)
+                    DisplayError(res.Exception);
+            }
+        }
+
+        private void exitToolbarMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void DisplayError(Exception ex)
+        {
+            MessageBox.Show(ex.Message);
+        }
+
+        private void submitResultsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var res = _fileOperations.EditFile(_replacementValues);
+            
+            if (res.Status == TaskStatus.Faulted)
+                DisplayError(res.Exception);
         }
     }
 }
