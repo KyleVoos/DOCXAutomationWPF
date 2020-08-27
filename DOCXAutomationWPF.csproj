@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\OpenFile_16x.png" />
+    <None Remove="Images\OpenFolder_16x.png" />
+    <None Remove="Images\SaveAs_16x.png" />
+    <None Remove="Images\Save_16x.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Images\OpenFile_16x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\OpenFolder_16x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\SaveAs_16x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\Save_16x.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DocX.NET.Standard" Version="1.0.3-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="PageModels\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,135 @@
+﻿<Window x:Class="DOCXAutomationWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DOCXAutomationWPF" xmlns:viewmodel="clr-namespace:DOCXAutomationWPF.ViewModel" xmlns:model="clr-namespace:DOCXAutomationWPF.Model"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="900">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Menu Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
+            <MenuItem Header="File">
+                <MenuItem Header="Open">
+                    <MenuItem.Icon>
+                        <Image Source="Images/OpenFolder_16x.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save">
+                    <MenuItem.Icon>
+                        <Image Source="Images/Save_16x.png" Width="16" Height="16"/>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Save As">
+                <MenuItem.Icon>
+                    <Image Source="Images/SaveAs_16x.png" Width="16" Height="16"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <Separator/>
+                <MenuItem Header="Exit"/>
+            </MenuItem>
+            <MenuItem Header="Settings">
+                <MenuItem Header="Default Values"/>
+            </MenuItem>
+        </Menu>
+        <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,15,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Replacement Field" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
+            <TextBlock Text="New Value" Grid.Column="1" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
+            <TextBlock Text="Text Style" Grid.Column="2" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
+            <TextBlock Text="Font Size" Grid.Column="4" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
+            <TextBlock Text="Font Family" Grid.Column="3" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
+            <TextBlock Text="Font Color" Grid.Column="5" Grid.ColumnSpan="1" HorizontalAlignment="Center"/>
+        </Grid>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Row="2" Grid.RowSpan="1" Grid.ColumnSpan="3">
+            <ItemsControl x:Name="testBinding">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Grid.Row="1" Margin="0,15,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="3*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="2*"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Label Width="Auto" Content="{Binding Path=ReplacementField}" Grid.Column="0" Grid.ColumnSpan="1" HorizontalAlignment="Center" Margin="10,0,5,0"/>
+                            <TextBox Width="Auto" Text="{Binding Path=ReplacementValue, UpdateSourceTrigger=Explicit}"
+                                         local:InputBindingsManager.UpdatePropertySourceWhenEnterPressed="TextBox.Text" Grid.Column="1" Grid.ColumnSpan="1" Margin="5,0,5,0"/>
+                            <ComboBox Width="Auto" SelectedItem="{Binding Path=TextStyle}"  AllowDrop="True" SelectedIndex="0" Grid.Column="2" Grid.ColumnSpan="1" Margin="5,0,5,0">
+                                <ComboBoxItem>None</ComboBoxItem>
+                                <ComboBoxItem>Bold</ComboBoxItem>
+                                <ComboBoxItem>Underline</ComboBoxItem>
+                                <ComboBoxItem>Italic</ComboBoxItem>
+                            </ComboBox>
+                            <ComboBox Width="Auto" SelectedValue="{Binding Path=FontFamily}" ItemsSource="{DynamicResource ResourceKey=fontsList}" 
+                                      FontFamily="{Binding Path=FontFamily}"
+                                      SelectedIndex="0" AllowDrop="True" Grid.Column="3" Grid.ColumnSpan="1" Margin="5,0,5,0"
+                                      IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" IsEditable="True">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding BindsDirectlyToSource=True}" FontFamily="{Binding BindsDirectlyToSource=True}" VerticalAlignment="Center"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBox Width="50" Text="{Binding Path=FontSize, Mode=OneWay}" Grid.Column="4" Grid.ColumnSpan="1" Margin="5,0,5,0"/>
+                            <ComboBox SelectedValue="{Binding Path=TextColor}" ItemsSource="{DynamicResource ResourceKey=colors}"
+                                      SelectedIndex="7" AllowDrop="True" MaxDropDownHeight="175" Grid.Column="5" Grid.ColumnSpan="1"
+                                      IsTextSearchEnabled="True" IsTextSearchCaseSensitive="False" IsEditable="True" Margin="5,0,10,0">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Rectangle Fill="{Binding Path=Name}" Height="16" Width="16" Margin="0,2,5,2"/>
+                                            <TextBlock Text="{Binding Path=Name}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid Grid.Row="3" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="90"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" x:Name="openFileButton" Margin="10,10,10,4" Click="openFileButton_Click">Open File</Button>
+            <Label Grid.Column="1" Grid.ColumnSpan="1" x:Name="filenameLabel" Content="{Binding Filename}" HorizontalAlignment="Left" VerticalAlignment="Stretch" Margin="10,0,0,4"/>
+            <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Margin="10,4,10,10" Click="scanFIleBtn_Click">Scan File</Button>
+            <Button Grid.Row="0" Grid.Column="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,10,10,4">Submit</Button>
+        </Grid>
+    </Grid>
+</Window>
